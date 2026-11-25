@@ -17,10 +17,13 @@ LINE = "I leave everything to my cat. She earned it. You didn't."
 
 def main():
     # Gate: the entry must be UTF-8 text of 1 to 150 characters, not
-    # only whitespace. Refuse to write an invalid line rather than
-    # hand the grader one.
+    # only whitespace, and a single line — a tombstone epitaph is one
+    # line of dying speech, never two. Refuse to write an invalid line
+    # rather than hand the grader one.
     if not 1 <= len(LINE) <= 150 or not LINE.strip():
         raise SystemExit("entry line fails the 1-150 character gate")
+    if "\n" in LINE or "\r" in LINE:
+        raise SystemExit("entry line fails the one-line gate")
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
